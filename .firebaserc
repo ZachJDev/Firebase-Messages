@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "dev": "message-dev-bbf56",
+    "prod": "message-96f5f"
+  }
+}

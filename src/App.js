@@ -16,7 +16,8 @@ function App() {
   const handleSignIn = async () => {
     const signInResult = await signInWithPopup(auth, provider);
     const credential = GoogleAuthProvider.credentialFromResult(signInResult);
-    // const token = credential.accessToken;
+    // eslint-disable-next-line no-unused-vars
+    const token = credential.accessToken;
     setUser(signInResult.user);
   };
   return (

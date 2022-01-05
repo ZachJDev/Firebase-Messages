@@ -26,6 +26,7 @@ function App() {
         {`Welcome to the Message Repo` +
           `${user ? `, ${user.displayName}` : ""}`}
       </h1>
+      <h2> Sign in Below</h2>
       <button onClick={handleSignIn}>Sign In</button>
       {user && <Message />}
       <MessagesList />

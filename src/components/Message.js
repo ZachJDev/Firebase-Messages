@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { doc, addDoc, getFirestore, collection } from "firebase/firestore";
+import { addDoc, getFirestore, collection } from "firebase/firestore";
 
 function Message() {
   const db = getFirestore();

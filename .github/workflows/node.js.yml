@@ -21,17 +21,17 @@ jobs:
     env:
       CI: true
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run test:ci
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run test:ci
 
-  merge-branch: 
-    
+  merge-branch:
+
     runs-on: ubuntu-latest
     needs: test
     steps:
@@ -42,26 +42,45 @@ jobs:
           type: now
           target_branch: master
           github_token: ${{ github.token }}
-          
+
   build:
     runs-on: ubuntu-latest
     needs: test
-  
+
     steps:
-        - uses: actions/checkout@v2
-        - name: Build production application
-          uses: actions/setup-node@v2
-          with:
-            node-version: 14.x
-            cache: 'npm'
-        - run: npm ci
-        - run: npm run build:prod
-        - run: pwd
-        - name: Archive Production Artifact
-          uses: actions/upload-artifact@master
-          with:
-            name: build
-            path: ./build
+      - uses: actions/checkout@v2
+      - name: Build production application
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build:prod
+      - run: pwd
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: build
+          path: ./build
+
+  deploy-functions:
+    name: deploy functions
+    runs-on: ubuntu-latest
+    steps:
+      - name: set environment variables
+        uses: w9jds/firebase-action@master
+        with:
+          args: 'functions:config:set env.project_id:"SOME_ID" env.datastore:"THE_DATASTORE"'
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: deploy functions
+        uses: w9jds/firebase-action@master
+        with:
+          args: 'deploy --only functions'
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_ID: prod
+          BQ_ID: "BIG QUERY ID HERE"
 
   deploy:
     name: Deploy
@@ -82,4 +101,3 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_ID: prod
-        

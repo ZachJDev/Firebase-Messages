@@ -73,6 +73,8 @@ jobs:
           args: 'functions:config:set env.project_id:"SOME_ID" env.datastore:"THE_DATASTORE"'
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_ID: prod
+          BQ_ID: "BIG QUERY ID HERE"
       - name: deploy functions
         uses: w9jds/firebase-action@master
         with:

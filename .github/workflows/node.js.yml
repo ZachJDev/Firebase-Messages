@@ -64,7 +64,6 @@ jobs:
             path: ./build
 
  deploy-functions:
-   name: deploy functions
    runs-on: ubuntu-latest
    steps:
      - name: set environment variables

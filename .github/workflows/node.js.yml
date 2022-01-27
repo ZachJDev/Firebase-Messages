@@ -63,6 +63,25 @@ jobs:
           name: build
           path: ./build
 
+  deploy-functions:
+    name: deploy functions
+    runs-on: ubuntu-latest
+    steps:
+      - name: set environment variables
+        uses: w9jds/firebase-action@master
+        with:
+          args: 'functions:config:set env.project_id:"SOME_ID" env.datastore:"THE_DATASTORE"'
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: deploy functions
+        uses: w9jds/firebase-action@master
+        with:
+          args: 'deploy --only functions'
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_ID: prod
+          BQ_ID: "BIG QUERY ID HERE"
+
   deploy:
     name: Deploy
     needs: build

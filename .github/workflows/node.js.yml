@@ -10,39 +10,6 @@ on:
     branches: [ master ]
 
 jobs:
-  test:
-
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [ 14.x ]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-    env:
-      CI: true
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run test:ci
-
-  merge-branch: 
-    
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - uses: actions/checkout@v2
-      - name: Merge Dev to Main
-        uses: devmasx/merge-branch@1.4.0
-        with:
-          type: now
-          target_branch: master
-          github_token: ${{ github.token }}
-          
   build:
     runs-on: ubuntu-latest
     needs: test
@@ -63,7 +30,26 @@ jobs:
             name: build
             path: ./build
 
-  deploy:
+ deploy-functions:
+   name: deploy functions
+   runs-on: ubuntu-latest
+   steps:
+     - name: set environment variables
+       uses: w9jds/firebase-action@master
+       with:
+         args: 'functions:config:set env.project_id:"SOME_ID" env.datastore:"THE_DATASTORE"'
+       env:
+         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+    - name: deploy functions
+      uses: w9jds/firebase-action@master
+      with:
+        args: 'deploy --only functions'
+      env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_ID: prod
+          BQ_ID: "BIG QUERY ID HERE"
+
+ deploy:
     name: Deploy
     needs: build
     runs-on: ubuntu-latest
@@ -82,4 +68,3 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_ID: prod
-        

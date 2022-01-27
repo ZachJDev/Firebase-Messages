@@ -67,6 +67,8 @@ jobs:
     name: deploy functions
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+      - run: pwd
       - name: set environment variables
         uses: w9jds/firebase-action@master
         with:

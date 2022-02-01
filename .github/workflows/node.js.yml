@@ -76,19 +76,19 @@ jobs:
         with:
           files: |
             functions/*/
-#      - name: Use Node.js
-#        uses: actions/setup-node@v1
-#      - name: NPM Install Functions
-#        working-directory: functions
-#        run: npm install
-#      - name: set environment variables
-#        uses: w9jds/firebase-action@master
-#        with:
-#          args: 'functions:config:set env.project_id="SOME_ID" env.dataset="THE_DATASTORE"'
-#        env:
-#          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-#          PROJECT_ID: prod
-#          BQ_ID: "BIG QUERY ID HERE"
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      - name: NPM Install Functions
+        working-directory: functions
+        run: npm install
+      - name: set environment variables
+        uses: w9jds/firebase-action@master
+        with:
+          args: 'functions:config:set env.project_id="SOME_ID" env.dataset="THE_DATASTORE"'
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_ID: prod
+          BQ_ID: "BIG QUERY ID HERE"
       - name: get changed functions
         run: |
           echo "CHANGED_OUTPUT=$(echo "${{steps.changed-functions.outputs.all_changed_files}}" | sed 's/functions\/\([[:alpha:]]\+\)\/index.js/\1/g' | sed 's/\([[:alpha:]]\+\)[[:space:]]\?/functions:\1,/g')" >> $GITHUB_ENV

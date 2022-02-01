@@ -78,7 +78,7 @@ jobs:
             functions/*/
       - name: Use Node.js
         uses: actions/setup-node@v1
-      - name: NPM Install Functions
+      - name: NPM Install Functionss
         working-directory: functions
         run: npm install
       - name: set environment variables

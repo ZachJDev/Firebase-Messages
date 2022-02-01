@@ -104,6 +104,7 @@ jobs:
 
       - name: deploy functions
         uses: w9jds/firebase-action@master
+        if: steps.changed-functions.outputs.any_changed == 'true'
         with:
           args: deploy --only ${{env.CHANGED_OUTPUT}}
         env:

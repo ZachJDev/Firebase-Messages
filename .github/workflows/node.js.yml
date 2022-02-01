@@ -91,7 +91,7 @@ jobs:
 #          BQ_ID: "BIG QUERY ID HERE"
       - name: list changed functions
         env:
-          CHANGED_OUPUT: ${{steps.changed-functions.outputs.all_changed_files}} | tr " " "\n"
+          CHANGED_OUPUT: ${{${{steps.changed-functions.outputs.all_changed_files}} | tr " " "\n"}}
           FUNCTION_STRING: "foo"
           FUNCTION: ""
         run: |

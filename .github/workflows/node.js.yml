@@ -91,9 +91,10 @@ jobs:
           BQ_ID: "BIG QUERY ID HERE"
       - name: list changed functions
         run: |
-        for file in ${{ steps.changed-functions.outputs.all_changed_files }}; do
-          echo "$file was changed"
-        done
+          for file in ${{ steps.changed-functions.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
+
       - name: deploy functions
         uses: w9jds/firebase-action@master
         with:

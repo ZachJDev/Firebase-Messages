@@ -90,14 +90,17 @@ jobs:
           PROJECT_ID: prod
           BQ_ID: "BIG QUERY ID HERE"
       - name: list changed functions
+        env:
+          CHANGED_OUPUT: steps.changed-functions.outputs.all_changed_files | tr " " "\n"
+          FUNCTION_STRING: ""
+          FUNCTION: ""
         run: |
-          changed_output= echo steps.changed-functions.outputs.all_changed_files | tr " " "\n"
-          function_string=""
-          for file in ${{ change_output }}; do
-            function=${{cut -f 2 -d '/' file }}
-            function_string="$function_string,functions:$function"
+          for file in $CHANGED_OUTPUT; do
+            echo "$file was changed"
+            echo "FUNCTION=${{cut -f 2 -d '/' file }}" >> $GITHUB_ENV
+            echo "FUNCTION_STRING=${{env.FUNCTION_STRING}},functions:${{env.FUNCTION}}" >> $GITHUB_ENV
           done
-          set changed_functions=$function_string
+          
 
       - name: deploy functions
         uses: w9jds/firebase-action@master

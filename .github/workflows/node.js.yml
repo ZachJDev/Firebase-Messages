@@ -76,19 +76,19 @@ jobs:
         with:
           files: |
             functions/*/
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-      - name: NPM Install Functions
-        working-directory: functions
-        run: npm install
-      - name: set environment variables
-        uses: w9jds/firebase-action@master
-        with:
-          args: 'functions:config:set env.project_id="SOME_ID" env.dataset="THE_DATASTORE"'
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          PROJECT_ID: prod
-          BQ_ID: "BIG QUERY ID HERE"
+#      - name: Use Node.js
+#        uses: actions/setup-node@v1
+#      - name: NPM Install Functions
+#        working-directory: functions
+#        run: npm install
+#      - name: set environment variables
+#        uses: w9jds/firebase-action@master
+#        with:
+#          args: 'functions:config:set env.project_id="SOME_ID" env.dataset="THE_DATASTORE"'
+#        env:
+#          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+#          PROJECT_ID: prod
+#          BQ_ID: "BIG QUERY ID HERE"
       - name: list changed functions
         env:
           CHANGED_OUPUT: steps.changed-functions.outputs.all_changed_files | tr " " "\n"
@@ -102,14 +102,14 @@ jobs:
           done
           
 
-      - name: deploy functions
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy --only ${{env.FUNCTION_STRING}}
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          PROJECT_ID: prod
-          BQ_ID: "BIG QUERY ID HERE"
+#      - name: deploy functions
+#        uses: w9jds/firebase-action@master
+#        with:
+#          args: deploy --only ${{env.FUNCTION_STRING}}
+#        env:
+#          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+#          PROJECT_ID: prod
+#          BQ_ID: "BIG QUERY ID HERE"
 
 #  deploy:
 #    name: Deploy

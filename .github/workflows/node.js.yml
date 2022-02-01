@@ -91,7 +91,7 @@ jobs:
 #          BQ_ID: "BIG QUERY ID HERE"
       - name: list changed functions
         env:
-          CHANGED_OUPUT: "foooo"
+#          CHANGED_OUPUT: "foooo"
           FUNCTION_STRING: "foo"
           FUNCTION: ""
         run: |

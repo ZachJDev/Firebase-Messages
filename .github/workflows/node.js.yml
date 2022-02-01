@@ -90,11 +90,14 @@ jobs:
           PROJECT_ID: prod
           BQ_ID: "BIG QUERY ID HERE"
       - name: list changed functions
-        run: echo ${{ steps.changed-functions.outputs.all_changed_files }}
+        run: |
+        for file in ${{ steps.changed-functions.outputs.all_changed_files }}; do
+          echo "$file was changed"
+        done
       - name: deploy functions
         uses: w9jds/firebase-action@master
         with:
-          args: 'deploy --only functions'
+          args: deploy --only functions ${{ steps.changed-functions.outputs.all_changed_files}}
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_ID: prod

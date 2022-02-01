@@ -4,5 +4,5 @@ const functions = require("firebase-functions");
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
 
-exports.helloWorld = require("./hello").helloWorld;
-exports.helloWorld2 = require("./helloWorld").helloWorld2;
+exports.helloWorld = require("./helloWorld").helloWorld;
+exports.goodByeWorld = require("./goodByeWorld").goodByeWorld;

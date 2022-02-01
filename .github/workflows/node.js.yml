@@ -89,27 +89,27 @@ jobs:
 #          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 #          PROJECT_ID: prod
 #          BQ_ID: "BIG QUERY ID HERE"
-      - name: list changed functions
+      - name: get changed functions
         run: |
-          echo "CHANGED_OUTPUT=$(echo "${{steps.changed-functions.outputs.all_changed_files}}" | sed 's/functions\/\([[:alpha:]]\+\)\/index.js/\1/g')" >> $GITHUB_ENV
+          echo "CHANGED_OUTPUT=$(echo "${{steps.changed-functions.outputs.all_changed_files}}" | sed 's/functions\/\([[:alpha:]]\+\)\/index.js/\1/g' | sed 's/\([[:alpha:]]\+\)[[:space:]]\?/functions:\1,/g')" >> $GITHUB_ENV
 
 #          for file in $CHANGED_OUTPUT; do
 #            echo "$file was changed"
 #            echo "FUNCTION= cut -f 2 -d '/' file" >> $GITHUB_ENV
 #            echo "FUNCTION_STRING=${{env.FUNCTION_STRING}},functions:${{env.FUNCTION}}" >> $GITHUB_ENV
 #          done
-      - name: print output
+      - name: prepare deploy string
         run: |
           echo $CHANGED_OUTPUT
 
-#      - name: deploy functions
-#        uses: w9jds/firebase-action@master
-#        with:
-#          args: deploy --only ${{env.FUNCTION_STRING}}
-#        env:
-#          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-#          PROJECT_ID: prod
-#          BQ_ID: "BIG QUERY ID HERE"
+      - name: deploy functions
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only ${{env.CHANGED_OUTPUT}}
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_ID: prod
+          BQ_ID: "BIG QUERY ID HERE"
 
 #  deploy:
 #    name: Deploy

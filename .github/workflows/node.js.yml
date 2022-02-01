@@ -91,14 +91,18 @@ jobs:
           BQ_ID: "BIG QUERY ID HERE"
       - name: list changed functions
         run: |
-          for file in ${{ steps.changed-functions.outputs.all_changed_files }}; do
-            echo "$file was changed"
+          changed_output= echo steps.changed-functions.outputs.all_changed_files | tr " " "\n"
+          function_string=""
+          for file in ${{ change_output }}; do
+            function=${{cut -f 2 -d '/' file }}
+            function_string="$function_string,functions:$function"
           done
+          set changed_functions=$function_string
 
       - name: deploy functions
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only functions ${{ steps.changed-functions.outputs.all_changed_files}}
+          args: deploy --only ${{$function_string}}
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_ID: prod

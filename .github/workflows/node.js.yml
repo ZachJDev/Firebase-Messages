@@ -97,7 +97,7 @@ jobs:
         run: |
           for file in $CHANGED_OUTPUT; do
             echo "$file was changed"
-            echo "FUNCTION=${{cut -f 2 -d '/' file }}" >> $GITHUB_ENV
+            echo "FUNCTION= cut -f 2 -d '/' file" >> $GITHUB_ENV
             echo "FUNCTION_STRING=${{env.FUNCTION_STRING}},functions:${{env.FUNCTION}}" >> $GITHUB_ENV
           done
           
@@ -105,7 +105,7 @@ jobs:
       - name: deploy functions
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only ${{$function_string}}
+          args: deploy --only ${{env.FUNCTION_STRING}}
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_ID: prod

@@ -68,6 +68,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: "2"
       - name: Use Node.js
         uses: actions/setup-node@v1
       - name: NPM Install Functions
@@ -81,6 +83,14 @@ jobs:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_ID: prod
           BQ_ID: "BIG QUERY ID HERE"
+      - name: get changed functions
+        id: changed-functions
+        uses: tj-actions/changed-files@v14.2
+        with:
+          files: |
+            functions/*/
+      - name: list changed functions
+        run: echo ${{ steps.changed-functions.outputs.all_changed_files }}
       - name: deploy functions
         uses: w9jds/firebase-action@master
         with:

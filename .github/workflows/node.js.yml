@@ -91,7 +91,7 @@ jobs:
 #          BQ_ID: "BIG QUERY ID HERE"
       - name: list changed functions
         run: |
-          echo "CHANGED_OUTPUT=${{steps.changed-functions.outputs.all_changed_files}}" >> $GITHUB_ENV
+          echo "CHANGED_OUTPUT=${{steps.changed-functions.outputs.all_changed_files | tr -d 'functions/' }}" >> $GITHUB_ENV
 
 #          for file in $CHANGED_OUTPUT; do
 #            echo "$file was changed"

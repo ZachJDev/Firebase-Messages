@@ -5,4 +5,4 @@ const functions = require("firebase-functions");
 //
 
 exports.helloWorld = require("./hello").helloWorld;
-exports.helloWorld2 = require("./hello2").helloWorld2;
+exports.helloWorld2 = require("./helloWorld").helloWorld2;

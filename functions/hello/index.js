@@ -13,5 +13,5 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
     "process.env??",
     process.env.BQ_ID
   );
-  response.send("Hello from Firebase! a change23");
+  response.send("Hello from Firebase! a change22");
 });
